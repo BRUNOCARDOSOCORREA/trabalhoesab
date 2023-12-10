@@ -1,0 +1,96 @@
+<?php
+
+	require_once(dirname(__FILE__) ."/../modelo/Cliente.php");
+	require_once(dirname(__FILE__) ."/../modelo/Funcionario.php");	
+	require_once(dirname(__FILE__) ."/../modelo/Locacao.php");
+	require_once(dirname(__FILE__) ."/../modelo/Devolucao.php");		
+	require_once(dirname(__FILE__) ."/../modelo/Configuracao.php");
+	require_once(dirname(__FILE__) ."/../modelo/Pagamento.php");
+	require_once(dirname(__FILE__) ."/../modelo/Multa.php");	
+	require_once(dirname(__FILE__) ."/../modelo/ItemAcervo.php");
+			
+	$bd = dirname(__FILE__) . '/../banco_dados/locadora.sqlite';	
+
+   $c = new Configuracao( $bd );	
+	$devolucao = new Devolucao( $bd );
+	$loc = new Locacao( $bd );	
+	$pagamento = new Pagamento($bd);
+	$multa = new Multa($bd);
+	
+	$_config = $c->buscar();
+	
+	// SELECIONA CLIENTE
+	if(isset($_POST['selLocacao'])) {		
+		$cod = $_POST['selLocacao'];		
+		$_locacao = $loc->buscar($cod);	
+	
+		$hj = date_create(date('Y-m-d')); 
+		$entrega = date_create(implode('-', array_reverse(explode('/', $_locacao->data_entrega))));		
+		$atraso = date_diff($entrega, $hj)->format('%R%a');
+		
+		$_delta = $atraso > 0 ? $atraso :0;					
+		$_multa = $_config->valor_multa * $_delta;		
+	}	
+	//PESQUISAR CLIENTE
+	if(isset($_POST['btnPesquisar'])) {
+		$nome = $_POST['nome']; 
+		$_lista = $devolucao->pesquisar($nome);
+	}
+	else {
+		$_lista = $devolucao->listarLocacoesAbertas();				
+	}
+	
+	// REGISTRAR LOCAÇÃO
+	if(isset($_POST['btnSalvar'])) {
+		$id_locacao = $_POST['txtIdlocacao']; 
+		
+		// buscar a locação atual		
+		$locacao = $loc->buscar($id_locacao);
+	
+		// registrar multa
+		$hj = date_create(date('Y-m-d')); //data de hoje
+		$entrega = date_create(implode('-', array_reverse(explode('/', $locacao->data_entrega)))); // data de devolução
+		$atraso = date_diff($entrega, $hj)->format('%R%a');
+		
+		if($atraso > 0) {
+			$multa-> data = date('d/m/Y');				
+			$multa-> valor = $_config->valor_multa * $atraso;			
+			$qde = $multa->salvar();
+		}				
+
+		// registrar pagamento
+		$pagamento-> locacao = $locacao;
+		$pagamento-> valor_locacao = $locacao->valor_base;
+		
+		if($atraso > 0 && $multa->status = 1) // multa não cancelada
+			$pagamento->valor_multa = $multa->valor;
+		else 	
+			$pagamento->valor_multa = 0;
+		
+		$pagamento-> valor_desconto = 0; 
+		$pagamento-> valor_total = $pagamento->valor_locacao +$pagamento->valor_multa - $pagamento->valor_desconto;;		
+		$pagamento-> data = date('d/m/Y');		
+		$pagamento->status = 1;
+		$qde = $pagamento->salvar();				
+				
+		// salvar devolução
+		$funcionario = 1;
+		$devolucao->funcionario->id = $funcionario;
+		$_resultado = $devolucao->salvar();
+
+		// atualizar locacao
+		$locacao->valor_multa = $pagamento->valor_multa;
+		$locacao->valor_desconto= $pagamento-> valor_desconto;
+		$locacao->valor_total = $pagamento-> valor_total;
+		$_resultado = $locacao->salvar();
+		
+		
+		// mandar informações para exibição
+		$_msg_ok = $_resultado > 0?"Dados Registrados com Sucesso!":null;
+		$_msg_erro = $_resultado > 0?null:"Erro! Esse código já está cadastrado no sistema!";
+	}	
+	
+	
+	include(dirname(__FILE__) . "/../telas/formDevolucao.php");
+	
+?>
