@@ -1,0 +1,304 @@
+{
+  "id": "c6283e6b-e335-4dcb-acf0-6e75b7291082",
+  "version": "2.0",
+  "name": "esab",
+  "url": "http://localhost",
+  "tests": [{
+    "id": "169382de-063d-4404-a2f8-081dc3047222",
+    "name": "controle de acervo",
+    "commands": [{
+      "id": "528260d2-9709-47fe-9429-e49db038b079",
+      "comment": "",
+      "command": "open",
+      "target": "/~leandro/controle/acervoctrl.php",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "46bc57c9-d600-4215-aa77-cf11b954fcad",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1920x1044",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ee7328c0-9084-4525-b773-0bc8c690c113",
+      "comment": "",
+      "command": "click",
+      "target": "id=btnNovo",
+      "targets": [
+        ["id=btnNovo", "id"],
+        ["css=#btnNovo", "css:finder"],
+        ["xpath=//button[@id='btnNovo']", "xpath:attributes"],
+        ["xpath=//form[@id='form_pesquisa_titulo']/div/div/button[2]", "xpath:idRelative"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Novo Titulo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "32292627-7354-4ccf-be28-550867479e89",
+      "comment": "",
+      "command": "click",
+      "target": "id=txtTitulo",
+      "targets": [
+        ["id=txtTitulo", "id"],
+        ["name=txtTitulo", "name"],
+        ["css=#txtTitulo", "css:finder"],
+        ["xpath=//input[@id='txtTitulo']", "xpath:attributes"],
+        ["xpath=//div[2]/form/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "608d5bb4-9fa6-4c1e-ba31-445b24d383f1",
+      "comment": "",
+      "command": "type",
+      "target": "id=txtTitulo",
+      "targets": [
+        ["id=txtTitulo", "id"],
+        ["name=txtTitulo", "name"],
+        ["css=#txtTitulo", "css:finder"],
+        ["xpath=//input[@id='txtTitulo']", "xpath:attributes"],
+        ["xpath=//div[2]/form/div/div/input", "xpath:position"]
+      ],
+      "value": "Quem Bate à Minha Porta?"
+    }, {
+      "id": "660a4f41-2dd0-4031-ba64-12dc297f29f6",
+      "comment": "",
+      "command": "click",
+      "target": "id=txtTituloOriginal",
+      "targets": [
+        ["id=txtTituloOriginal", "id"],
+        ["name=txtTituloOriginal", "name"],
+        ["css=#txtTituloOriginal", "css:finder"],
+        ["xpath=//input[@id='txtTituloOriginal']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9aea210d-daa2-4a75-abc2-31c1578e41a4",
+      "comment": "",
+      "command": "type",
+      "target": "id=txtTituloOriginal",
+      "targets": [
+        ["id=txtTituloOriginal", "id"],
+        ["name=txtTituloOriginal", "name"],
+        ["css=#txtTituloOriginal", "css:finder"],
+        ["xpath=//input[@id='txtTituloOriginal']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Quem Bate à Minha Porta?"
+    }, {
+      "id": "40195f7b-f3e7-489d-a9c4-51a6970834ec",
+      "comment": "",
+      "command": "click",
+      "target": "id=txtDescricao",
+      "targets": [
+        ["id=txtDescricao", "id"],
+        ["name=txtDescricao", "name"],
+        ["css=#txtDescricao", "css:finder"],
+        ["xpath=//textarea[@id='txtDescricao']", "xpath:attributes"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0fa53248-3b18-40c8-ab4a-a3b215189420",
+      "comment": "",
+      "command": "type",
+      "target": "id=txtDescricao",
+      "targets": [
+        ["id=txtDescricao", "id"],
+        ["name=txtDescricao", "name"],
+        ["css=#txtDescricao", "css:finder"],
+        ["xpath=//textarea[@id='txtDescricao']", "xpath:attributes"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "Who's That Knocking at My Door, originalmente intitulado I Called First, é um filme do gênero drama de 1967, escrito e dirigido por Martin Scorsese, em sua estreia como diretor de longa-metragens, e estrelando Harvey Keitel, em seu primeiro papel no cinema. Venceu o Chicago International Film Festival de 1968"
+    }, {
+      "id": "b85e19ed-99c1-4266-a7c0-52f086ef796f",
+      "comment": "",
+      "command": "click",
+      "target": "id=txtAnoLancamento",
+      "targets": [
+        ["id=txtAnoLancamento", "id"],
+        ["name=txtAnoLancamento", "name"],
+        ["css=#txtAnoLancamento", "css:finder"],
+        ["xpath=//input[@id='txtAnoLancamento']", "xpath:attributes"],
+        ["xpath=//div[4]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e875cc46-960d-427a-b069-3c2a36ad3555",
+      "comment": "",
+      "command": "type",
+      "target": "id=txtAnoLancamento",
+      "targets": [
+        ["id=txtAnoLancamento", "id"],
+        ["name=txtAnoLancamento", "name"],
+        ["css=#txtAnoLancamento", "css:finder"],
+        ["xpath=//input[@id='txtAnoLancamento']", "xpath:attributes"],
+        ["xpath=//div[4]/div/input", "xpath:position"]
+      ],
+      "value": "1968"
+    }, {
+      "id": "a0609dc3-fef2-4af1-9f78-f9887d797b5c",
+      "comment": "",
+      "command": "click",
+      "target": "id=txtCodigo",
+      "targets": [
+        ["id=txtCodigo", "id"],
+        ["name=txtCodigo", "name"],
+        ["css=#txtCodigo", "css:finder"],
+        ["xpath=//input[@id='txtCodigo']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "94c7e342-b4a3-467e-8f8f-c34368e758c6",
+      "comment": "",
+      "command": "type",
+      "target": "id=txtCodigo",
+      "targets": [
+        ["id=txtCodigo", "id"],
+        ["name=txtCodigo", "name"],
+        ["css=#txtCodigo", "css:finder"],
+        ["xpath=//input[@id='txtCodigo']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "AC-D-001"
+    }, {
+      "id": "f017241c-0851-439d-a0a6-678c873e2b77",
+      "comment": "",
+      "command": "click",
+      "target": "id=txtMidia",
+      "targets": [
+        ["id=txtMidia", "id"],
+        ["name=txtMidia", "name"],
+        ["css=#txtMidia", "css:finder"],
+        ["xpath=//select[@id='txtMidia']", "xpath:attributes"],
+        ["xpath=//div[6]/div/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "120d9a9c-9f2a-4630-82b6-8611f1b38eaf",
+      "comment": "",
+      "command": "select",
+      "target": "id=txtMidia",
+      "targets": [],
+      "value": "label=DVD"
+    }, {
+      "id": "a6961137-e6a9-414b-871d-ea7970bfa4a9",
+      "comment": "",
+      "command": "click",
+      "target": "css=#txtMidia > option:nth-child(2)",
+      "targets": [
+        ["css=#txtMidia > option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='2']", "xpath:attributes"],
+        ["xpath=//select[@id='txtMidia']/option[2]", "xpath:idRelative"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,' DVD')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "50af8217-b16b-4f16-afa8-e45ba66d82d0",
+      "comment": "",
+      "command": "click",
+      "target": "id=txtStatus",
+      "targets": [
+        ["id=txtStatus", "id"],
+        ["name=txtStatus", "name"],
+        ["css=#txtStatus", "css:finder"],
+        ["xpath=//select[@id='txtStatus']", "xpath:attributes"],
+        ["xpath=//div[6]/div[2]/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fd69c88b-2935-4653-b829-2cf05e98233f",
+      "comment": "",
+      "command": "select",
+      "target": "id=txtStatus",
+      "targets": [],
+      "value": "label=Cadastrado"
+    }, {
+      "id": "47f9028d-427c-43a0-9908-ffaba1d450df",
+      "comment": "",
+      "command": "click",
+      "target": "css=#txtStatus > option:nth-child(1)",
+      "targets": [
+        ["css=#txtStatus > option:nth-child(1)", "css:finder"],
+        ["xpath=(//option[@value='1'])[2]", "xpath:attributes"],
+        ["xpath=//select[@id='txtStatus']/option", "xpath:idRelative"],
+        ["xpath=//div[2]/select/option", "xpath:position"],
+        ["xpath=//option[contains(.,' Cadastrado')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "396ca541-0851-49a1-9818-9dc8237447c0",
+      "comment": "",
+      "command": "click",
+      "target": "id=btnSalvar",
+      "targets": [
+        ["id=btnSalvar", "id"],
+        ["name=btnSalvar", "name"],
+        ["css=#btnSalvar", "css:finder"],
+        ["xpath=//button[@id='btnSalvar']", "xpath:attributes"],
+        ["xpath=//div[7]/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Salvar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "773c88f7-ccf6-4222-9370-d44ed5da3e30",
+      "comment": "",
+      "command": "addSelection",
+      "target": "id=selTitulo",
+      "targets": [
+        ["id=selTitulo", "id"],
+        ["name=selTitulo", "name"],
+        ["css=#selTitulo", "css:finder"],
+        ["xpath=//select[@id='selTitulo']", "xpath:attributes"],
+        ["xpath=//form[@id='form_pesquisa_titulo']/div[2]/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"],
+        ["xpath=//select[contains(.,'Quem Bate à Minha Porta?')]", "xpath:innerText"]
+      ],
+      "value": "label=Quem Bate à Minha Porta?"
+    }, {
+      "id": "e658d744-928a-4810-8b9b-c8c4eb2077a7",
+      "comment": "",
+      "command": "addSelection",
+      "target": "id=selMidia",
+      "targets": [
+        ["id=selMidia", "id"],
+        ["name=selMidia", "name"],
+        ["css=#selMidia", "css:finder"],
+        ["xpath=//select[@id='selMidia']", "xpath:attributes"],
+        ["xpath=//form[@id='form_pesquisa_titulo']/div[3]/select", "xpath:idRelative"],
+        ["xpath=//div[3]/select", "xpath:position"],
+        ["xpath=//select[contains(.,'AC-D-001 - DVD')]", "xpath:innerText"]
+      ],
+      "value": "label=AC-D-001 - DVD"
+    }, {
+      "id": "063041b0-2c80-4259-9fce-2503b202677a",
+      "comment": "",
+      "command": "click",
+      "target": "id=btnNovaMidia",
+      "targets": [
+        ["id=btnNovaMidia", "id"],
+        ["name=btnNovaMidia", "name"],
+        ["css=#btnNovaMidia", "css:finder"],
+        ["xpath=//button[@id='btnNovaMidia']", "xpath:attributes"],
+        ["xpath=//form[@id='form_pesquisa_titulo']/div[3]/button", "xpath:idRelative"],
+        ["xpath=//div[3]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Nova Mídia')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "bbbf6ea5-5f20-4a2a-9309-cf6ef607e42a",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost/"],
+  "plugins": []
+}

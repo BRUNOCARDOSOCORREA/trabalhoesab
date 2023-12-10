@@ -1,0 +1,96 @@
+function limpar_todos_Campos(){
+	$("#txtId").val(0)
+	$("#txtNome").val('');
+	$("#txtLogradouro").val('');
+	$("#txtBairro").val('');
+	$("#txtCPF").val('');
+	$("#txtRG").val('');
+}
+
+function habilitar_todos_campos(){
+
+	$("#txtNome").prop('readonly', false);
+	$("#txtNome").prop('readonly',false);
+	$("#txtLogradouro").prop('readonly',false);
+	$("#txtBairro").prop('readonly', false);
+	$("#txtCPF").prop('readonly',false);
+	$("#txtRG").prop('readonly',false);
+}
+
+function desabilitar_todos_campos(){
+	$("#txtNome").prop('readonly', true);
+	$("#txtLogradouro").prop('readonly', true);
+	$("#txtBairro").prop('readonly', true);
+	$("#txtCPF").prop('readonly', true);
+	$("#txtRG").prop('readonly', true);	
+	$('#btnSalvar').prop('disabled', true);
+	$('#btnExcluir').prop('disabled', true);
+}
+
+function inicia_funcionario(){
+	desabilitar_todos_campos();
+	limpar_todos_Campos();
+}
+
+function selFuncionario_onSelected(){
+
+	$("#hdnTituloSelecionado").value = $('#hdnTituloSelecionado option:selected').val();	
+	$('#form_pesquisa_titulo').submit();
+} 
+
+function btnNovo_onclick(){	
+	habilitar_todos_campos();	
+	limpar_todos_Campos();	
+}
+
+function validar(){
+	
+	msg = '';
+	flag= true;
+	if ($("#txtNome").val() == ''){		
+		destacar_erro("#txtNome");
+		msg = msg + "Preencha o nome do Funcionário!";
+		flag= false;
+	}
+	
+	if ($("#txtLogradouro").val() == '') {
+		destacar_erro("#txtLogradouro");
+		msg = msg + "<br>Preencha o Endereço!";
+		flag= false;
+	}
+	
+	if ($("#txtBairro").val() == ''){	
+		destacar_erro("#txtBairro");
+		msg = msg + "<br>Preencha o Bairro!";
+		flag= false;
+	}
+	if ($("#txtCPF").val()==''){
+		destacar_erro("#txtCPF");
+		msg = msg + "<br>Preencha o CPF!";
+		flag= false;
+	}
+	
+	if ($("#txtRG").val() == ''){		
+		destacar_erro("#txtRG");
+		msg = msg + "<br>Preencha o RG!";
+		flag= false;
+	}	
+	
+	mostrar_msg_erro( msg )
+	 
+	return flag;	
+}
+
+function destacar_erro( campo ){		
+	$(campo).addClass('border');
+	$(campo).addClass('border-danger');	
+}
+
+function mostrar_msg_erro( msg ){
+	$("#validacao").css('visibility','visible');
+	$("#validacao").html( msg );
+}
+
+
+$(document).ready(function(){  
+});

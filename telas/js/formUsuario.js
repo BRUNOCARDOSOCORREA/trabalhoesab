@@ -1,0 +1,98 @@
+function limpar_todos_Campos(){
+	$("#txtId").val(0)
+	$("#txtFuncionario").val('');
+	$("#txtLogin").val('');
+	$("#txtSenha").val('');
+	$("#txtPerfil").val('');
+	$("#txtStatus").val('');	
+}
+
+function habilitar_todos_campos(){
+	$("#txtFuncionario").removeClass('select_read_only');
+	$("#txtLogin").prop('readonly', false);;
+	$("#txtFuncionario").addClass('select_read_only');
+	$("#txtLogin").prop('readonly', true);;
+	
+	$("#txtSenha").prop('readonly', false);;
+	$("#txtPerfil").prop('readonly', false);;
+	$("#txtstatusativo").prop('disabled', false);;
+	$("#txtstatusdesativado").prop('disabled', false);;
+	$("#txtperfilfuncionario").prop('disabled', false);;
+	$("#txtperfiladministrador").prop('disabled', false);;
+	$('#btnSalvar').prop('disabled', false);
+	$('#txtstatusativo').prop('checked',true);
+	$('#txtperfilfuncionario').prop('checked',true);
+}
+
+function desabilitar_todos_campos(){	
+	$("#txtFuncionario").addClass('select_read_only');
+	$("#txtLogin").prop('readonly', true);;
+	$("#txtSenha").prop('readonly', true);;
+	$("#txtstatusativo").prop('disabled', true);;
+	$("#txtstatusdesativado").prop('disabled', true);;
+	$("#txtperfilfuncionario").prop('disabled', true);;
+	$("#txtperfiladministrador").prop('disabled', true);;	
+	$('#btnSalvar').prop('disabled', true);
+	$('#btnExcluir').prop('disabled', true);		
+}
+
+function inicia_usuario(){
+	desabilitar_todos_campos();
+	limpar_todos_Campos();
+}
+
+function editar_usuario(){
+		$("#txtFuncionario").addClass('select_read_only');
+	$("#txtLogin").prop('readonly', true);;
+}
+
+function selUsuario_onSelected(){		
+	$('#form_pesquisa_titulo').submit();
+} 
+
+function btnNovo_onclick(){	
+	habilitar_todos_campos();	
+	limpar_todos_Campos();	
+}
+
+function validar(){
+	
+	msg = '';
+	flag= true;
+	
+	if ($("#txtFuncionario").val() == null){		
+		destacar_erro("#txtFuncionario");
+		msg = msg + "<br>Preencha o Funcionário !";
+		flag= false;
+	}
+	
+	if ($("#txtLogin").val() == ''){		
+		destacar_erro("#txtLogin");
+		msg = msg + "<br>Preencha o campo Login!";
+		flag= false;
+	}
+	
+	if ($("#txtSenha").val() == '') {
+		destacar_erro("#txtSenha");
+		msg = msg + "<br>Preencha a Senha!";
+		flag= false;
+	}
+	
+	mostrar_msg_erro( msg )
+	 
+	return flag;	
+}
+
+function destacar_erro( campo ){		
+	$(campo).addClass('border');
+	$(campo).addClass('border-danger');	
+}
+
+function mostrar_msg_erro( msg ){
+	$("#validacao").css('visibility','visible');
+	$("#validacao").html( msg );
+}
+
+
+$(document).ready(function(){  
+});

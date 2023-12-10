@@ -1,0 +1,159 @@
+<?php
+	
+	use PHPUnit\Framework\TestCase;
+	
+	require_once (__DIR__ . "/../modelo/Funcionario.php");
+	require_once (__DIR__ . "/../modelo/MetaVenda.php");
+	
+	class MetaVendaTest extends TestCase {
+			private static $id_funcionario;	
+			private static $id_metavenda;
+			
+			public function testAdicionar (){	
+					
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora_teste.sqlite';
+				
+				$item = new Funcionario($bd);
+								
+				$item-> nome = 'Leandro Peçanha Scardua';				
+				$item->logradouro = 'Rua Pedro Palácios, 40';
+				$item-> bairro = 'Centro' ;				
+				$item->cpf = '097.189.777-83';
+				$item-> rg = '1815806';			
+				
+				$qde = $item->salvar();
+				
+				$this->assertEquals(1, $qde);	
+				$this->assertGreaterThan(0, $item->id);
+				self::$id_funcionario = $item->id;		
+				
+				$mv = new MetaVenda($bd);
+				$mv->funcionario = $item;
+				$mv->qde = 10;				
+				
+				$qde = $mv->salvar();
+				
+				$this->assertEquals(1, $qde);	
+				$this->assertGreaterThan(0, $mv->id);
+				self::$id_metavenda = $mv->id;			
+			}			
+			
+			/**
+			@depends testAdicionar
+			*/
+			public function testPesquisar (){
+				$this->AssertNotEquals(0, self::$id_metavenda)	;
+							
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora_teste.sqlite';
+				$item = new MetaVenda($bd);
+				
+				$t = $item->pesquisar('Leandro');				
+				$this->assertEquals(1, count($t));
+				
+				$t = $item->pesquisar('Joana Darc');
+				$this->assertEquals(0, count($t));
+			}
+			
+			/**
+			@depends testAdicionar
+			*/
+			public function testVerificarExistenciaLogin (){	
+				$this->AssertNotEquals(0, self::$id_metavenda)	;
+							
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora_teste.sqlite';
+				$item = new MetaVenda($bd);
+				
+				$t = $item->verificarExistenciaMetaVigente(self::$id_funcionario);				
+				$this->assertTrue($t);
+				
+				$t = $item->verificarExistenciaMetaVigente(9999);				
+				$this->assertFalse($t);
+			}
+			
+			/**
+			@depends testAdicionar
+			*/
+			public function testBuscar (){	
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora_teste.sqlite';
+				$item = new MetaVenda($bd);
+				
+				$mv = $item->buscar(self::$id_metavenda);
+				
+				$this->assertNotNull($mv);				
+				
+				$this->assertEquals(self::$id_metavenda, $mv->id);
+				$this->assertEquals(10, $mv->qde);				
+				$this->assertEquals(1, $mv->estah_vigente);
+				$this->assertEquals(null, $mv->dt_termino);
+				$this->assertEquals(self::$id_funcionario, $mv->funcionario->id);								
+				
+				$mv = $item->buscar('---');//buscar por um item inexistente
+				$this->assertNull($mv);
+			}			
+					
+			/**
+			@depends testAdicionar
+			*/
+			public function testBuscarPorFuncionario (){	
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora_teste.sqlite';
+				$item = new MetaVenda($bd);
+				
+				$mv = $item->buscarPorFuncionario(self::$id_funcionario);
+				
+				$this->assertNotNull($mv);				
+				
+				$this->assertEquals(self::$id_metavenda, $mv->id);
+				$this->assertEquals(10, $mv->qde);				
+				$this->assertEquals(1, $mv->estah_vigente);
+				$this->assertEquals(null, $mv->dt_termino);
+				$this->assertEquals(self::$id_funcionario, $mv->funcionario->id);								
+				
+				$mv = $item->buscarPorFuncionario('9999');//buscar por um item inexistente
+				$this->assertNull($mv);
+			}		
+			
+				
+			/**
+			@depends testAdicionar
+			*/
+			public function testAtualizar (){	
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora_teste.sqlite';
+				$mv = new MetaVenda($bd);
+				
+				$mv = $mv->buscar(self::$id_metavenda);
+											
+				$mv-> qde = 30;				
+				$mv-> dt_termino = "";
+				$mv->estah_vigente = 0;				
+				
+				$qde = $mv->salvar();
+				$this->assertEquals(1, $qde);
+				
+				$u = $mv->buscar(self::$id_metavenda);
+				
+				$this->assertNotNull($u);				
+				
+				$this->assertEquals(self::$id_metavenda, $u->id);				
+				$this->assertEquals(30, $u->qde);
+				$this->assertEquals(0 , $u->estah_vigente);
+				$this->assertNotNull( $u->dt_termino);				
+				$this->assertEquals(self::$id_funcionario, $u->funcionario->id );			
+			}
+			
+			/**			
+			@depends testPesquisar
+			@depends testBuscar			
+			@depends testAtualizar
+			*/
+			public function testExcluir (){
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora_teste.sqlite';
+				$mv = new MetaVenda($bd);
+				
+				$mv = $mv->buscar(self::$id_metavenda);
+				$this->assertNotNull($mv);
+				$mv->excluir();
+				$mv = $mv->buscar(self::$id_metavenda);
+				$this->assertNull($mv);			
+			}			
+	}
+?>

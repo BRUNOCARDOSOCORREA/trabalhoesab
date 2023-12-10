@@ -1,0 +1,32 @@
+<?php
+	
+	use PHPUnit\Framework\TestCase;
+	
+	require_once (__DIR__ . "/../modelo/ItemAcervo.php");
+	
+	class TituloTest extends TestCase {
+			public function testCriarTitulo(){
+				$_nome = 'Três homens em conflito';
+				$_nome_original = 'Il buono, il brutto, il cattivo' ;
+				$_descricao = 'Para três homens a Guerra Civil não foi um inferno. Era prática.' ;
+				$_ano_lancamento = 1966 ;
+				
+				$tit = new Titulo($_nome,$_nome_original,$_descricao,$_ano_lancamento);
+				$this->assertEquals($tit->nome, $_nome);
+				$this->assertEquals($tit->nome_original,$_nome_original);
+				$this->assertEquals($tit->descricao,$_descricao );
+				$this->assertEquals($tit->ano_lancamento, $_ano_lancamento);				
+			}
+			
+			public function testSalvar(){
+				$_nome = 'Três homens em conflito';
+				$_nome_original = 'Il buono, il brutto, il cattivo' ;
+				$_descricao = 'Para três homens a Guerra Civil não foi um inferno. Era prática.' ;
+				$_ano_lancamento = 1966 ;
+				
+				$tit = new Titulo($_nome,$_nome_original,$_descricao,$_ano_lancamento);
+				$tit->salvar();
+				
+			}
+	}
+?>

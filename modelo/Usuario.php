@@ -1,0 +1,157 @@
+<?php
+	require_once(dirname(__FILE__) ."/../modelo/Funcionario.php");
+	
+	class Usuario {
+		
+		public $con;
+		public $path;
+		public $id = 0;
+		public $login;
+		public $senha;
+		public $funcionario;
+		public $status;
+		public $eh_administrador;
+				
+		public function __construct($path){		
+			$this->path = $path;				
+			$this->con = new PDO("sqlite:$path");
+			$this->funcionario = new Funcionario($path);			
+		}
+			
+		public function listar(){				
+			$comm = $this->con->query("SELECT *,u.id as id_usuario FROM tb_usuario as u  INNER JOIN tb_funcionario as f on (f.id = u.id_funcionario);" );						
+			$lista = $comm->fetchAll();			
+			return $lista;		
+		}
+		
+		public function pesquisar($pesq=''){			
+			$where = "%$pesq%";		
+			$stmt = $this->con->prepare("SELECT *,u.id as id_usuario FROM tb_usuario as u  INNER JOIN tb_funcionario as f on (f.id = u.id_funcionario) WHERE f.nome  LIKE :pesq ;");	
+			$stmt->bindParam(':pesq',$where);		
+			$stmt->execute();			
+			$lista = $stmt->fetchAll();					
+			return $lista;			
+		}
+		
+		public function verificarExistenciaLogin($nome){			
+			$stmt = $this->con->prepare("SELECT * FROM tb_usuario AS t WHERE login = :nome;");	
+			$stmt->bindParam(':nome',$nome);
+			
+			$stmt->execute();					
+			$lista = $stmt->fetchAll();			
+			return count($lista) > 0;			
+		}
+		
+		public function validar($login, $senha){
+			$stmt = $this->con->prepare("SELECT * FROM tb_usuario AS t WHERE login = :login AND senha=:senha;");	
+			$stmt->bindParam(':login',$login);
+			$stmt->bindParam(':senha',$senha);
+			
+			$stmt->execute();					
+			$lista = $stmt->fetchAll();			
+			return count($lista) > 0;
+		}
+		
+		public function salvar(){			
+			if($this->id==0){						
+				$sql = "INSERT INTO 'main'.'tb_usuario' ('id_funcionario','login', 'senha','eh_administrador','status') VALUES (:id_funcionario, :login, :senha,:eh_administrador, :status);";
+			
+				$stmt = $this->con->prepare($sql);			
+			
+				$stmt->bindParam(':id_funcionario',$this->funcionario->id);
+				$stmt->bindParam(':login',$this->login);
+				$stmt->bindParam(':senha',$this->senha);								
+				$stmt->bindParam(':eh_administrador',$this->eh_administrador);
+				$stmt->bindParam(':status',$this->status);								
+			
+				$stmt->execute();
+				$this->id = $this->con->lastInsertId();
+				$qde = $stmt->rowCount();
+			} 
+			else {				
+				$sql = "UPDATE 'main'.'tb_usuario' SET 'senha'=:senha, 'status'=:status, 'eh_administrador'= :eh_administrador WHERE  id=:id_usuario";
+			
+				$stmt = $this->con->prepare($sql);				
+				
+				$stmt->bindParam(':senha',$this->senha);
+				$stmt->bindParam(':status',$this->status);		
+				$stmt->bindParam(':id_usuario',$this->id);
+				$stmt->bindParam(':eh_administrador',$this->eh_administrador);
+				$stmt->bindParam(':status',$this->status);
+											
+				$stmt->execute();				
+				$qde = $stmt->rowCount();		
+			}
+			
+			return $qde;			
+		}	
+		
+		public function buscar($codigo){			
+			$comm = $this->con->prepare("SELECT *, u.id as id_usuario FROM tb_usuario as u  LEFT JOIN tb_funcionario as f on (f.id = u.id_funcionario) WHERE u.id  = :cod ;");
+			$comm->bindParam(':cod', $codigo);
+			$comm->execute();						
+			$row = $comm->fetch(PDO::FETCH_ASSOC);
+			
+			$usuario = null;
+			
+			if ($row != null){ 					
+					$usuario = new Usuario($this->path);
+					$usuario->id = $row['id_usuario'];					
+					$usuario->login = $row['login'];
+					$usuario->senha = $row['senha'];
+					$usuario->status = $row['status'];
+					$usuario->eh_administrador = $row['eh_administrador'];
+					
+					$usuario->funcionario->id = $row['id_funcionario'];
+					$usuario->funcionario->nome = $row['nome'];
+					$usuario->funcionario->logradouro = $row['logradouro'];
+					$usuario->funcionario->bairro = $row['bairro'];
+					$usuario->funcionario->cpf = $row['cpf'];
+					$usuario->funcionario->rg = $row['rg'];					
+			}
+			
+			return $usuario;			
+		}
+		
+		public function buscarPorLogin($login){			
+			$comm = $this->con->prepare("SELECT *, u.id as id_usuario FROM tb_usuario as u  LEFT JOIN tb_funcionario as f on (f.id = u.id_funcionario) WHERE u.login = :login ;");
+			$comm->bindParam(':login', $login);
+			$comm->execute();						
+			$row = $comm->fetch(PDO::FETCH_ASSOC);
+			
+			$usuario = null;
+			
+			if ($row != null){ 					
+					$usuario = new Usuario($this->path);
+					$usuario->id = $row['id_usuario'];					
+					$usuario->login = $row['login'];
+					$usuario->senha = $row['senha'];
+					$usuario->status = $row['status'];
+					$usuario->eh_administrador = $row['eh_administrador'];
+					
+					$usuario->funcionario->id = $row['id_funcionario'];
+					$usuario->funcionario->nome = $row['nome'];
+					$usuario->funcionario->logradouro = $row['logradouro'];
+					$usuario->funcionario->bairro = $row['bairro'];
+					$usuario->funcionario->cpf = $row['cpf'];
+					$usuario->funcionario->rg = $row['rg'];					
+			}
+			
+			return $usuario;			
+		}
+		
+		public function excluir(){			
+			$sql = "DELETE FROM tb_usuario  WHERE  id=:id_usuario;";
+			
+			$stmt = $this->con->prepare($sql);
+						
+			$stmt->bindParam(':id_usuario',$this->id);
+							
+			$stmt->execute();				
+			$qde = $stmt->rowCount();	
+			
+			return $stmt->rowCount();			
+		}
+			
+	}
+?>

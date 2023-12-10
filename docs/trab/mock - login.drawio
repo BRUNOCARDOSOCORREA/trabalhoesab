@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net" modified="2023-06-19T00:52:20.378Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101 Firefox/96.0" etag="g-RWDXxu4GO-bP6nlTUA" version="21.5.0" type="device">
+  <diagram name="Página-1" id="P3eBQSkC0GauK6KS6x2o">
+    <mxGraphModel dx="1434" dy="786" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="40gH0NYvDOO1M-5X-y8T-8" value="" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;strokeColor=#6C767D;html=1;whiteSpace=wrap;fillColor=#ffffff;fontColor=#212529;verticalAlign=bottom;align=left;spacing=20;spacingBottom=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="290" y="130" width="620" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="40gH0NYvDOO1M-5X-y8T-9" value="Sistema de Controle de Locadora" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.topButton;rSize=5;perimeter=none;whiteSpace=wrap;fillColor=#F7F7F7;strokeColor=#6C767D;fontColor=#6C767D;resizeWidth=1;fontSize=18;align=left;spacing=20;" vertex="1" parent="40gH0NYvDOO1M-5X-y8T-8">
+          <mxGeometry width="620" height="50" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="40gH0NYvDOO1M-5X-y8T-10" value="Login" style="fillColor=none;strokeColor=none;align=left;fontSize=12;fontColor=#212529;" vertex="1" parent="40gH0NYvDOO1M-5X-y8T-8">
+          <mxGeometry x="50" y="130" width="90" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="40gH0NYvDOO1M-5X-y8T-12" value="Senha" style="fillColor=none;strokeColor=none;align=left;fontSize=14;fontColor=#212529;" vertex="1" parent="40gH0NYvDOO1M-5X-y8T-8">
+          <mxGeometry x="50" y="165" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="40gH0NYvDOO1M-5X-y8T-13" value="" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=none;strokeColor=#999999;align=left;spacing=15;fontSize=14;fontColor=#6C767D;" vertex="1" parent="40gH0NYvDOO1M-5X-y8T-8">
+          <mxGeometry x="140" y="165" width="310" height="21.14" as="geometry" />
+        </mxCell>
+        <mxCell id="40gH0NYvDOO1M-5X-y8T-11" value="" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;fillColor=none;strokeColor=#999999;align=left;spacing=15;fontSize=12;fontColor=#6C767D;" vertex="1" parent="40gH0NYvDOO1M-5X-y8T-8">
+          <mxGeometry x="140" y="130" width="310" height="13.78" as="geometry" />
+        </mxCell>
+        <mxCell id="40gH0NYvDOO1M-5X-y8T-14" value="Entrar" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;strokeColor=none;strokeWidth=1;fillColor=#33A64C;fontColor=#FFFFFF;whiteSpace=wrap;align=center;verticalAlign=middle;spacingLeft=0;fontStyle=0;fontSize=16;spacing=5;" vertex="1" parent="40gH0NYvDOO1M-5X-y8T-8">
+          <mxGeometry x="240" y="245" width="90" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

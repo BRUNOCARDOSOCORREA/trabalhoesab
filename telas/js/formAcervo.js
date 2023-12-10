@@ -1,0 +1,168 @@
+function limpar_todos_Campos(){
+	$("#txtId").val(0)
+	$("#txtTitulo").val('');
+	$("#txtTituloOriginal").val('');
+	$("#txtDescricao").val('');
+	$("#txtAnoLancamento").val('');
+	$("#txtCodigo").val('');
+	$("#txtPeriodoMaxEmprestimo").val('');
+	$("#txtMidia").val('');
+	$("#txtStatus").val('');
+	$("#hdnIdTitulo").val('0');
+	$("#hdnCodigo").val('');
+	$("#hdnId").val('0');
+}
+
+function habilitar_todos_campos(){	
+	$("#txtTitulo").prop('readonly', false);
+	$("#txtTituloOriginal").prop('readonly',false);
+	$("#txtDescricao").prop('readonly',false);
+	$("#txtAnoLancamento").prop('readonly', false);
+	$("#txtCodigo").prop('readonly',false);
+	$("#txtPeriodoMaxEmprestimo").prop('readonly',false);
+	$("#txtMidia").removeClass('select_read_only');
+	$("#txtStatus").removeClass('select_read_only');	
+	
+	$("#btnSalvar").prop('disabled',false);
+	$("#btnCancelar").prop('disabled',false);
+	$("#btnExcluir").prop('disabled',false);
+}
+
+function desabilitar_todos_campos(){	
+	$("#txtTitulo").prop('readonly', true);
+	$("#txtTituloOriginal").prop('readonly', true);
+	$("#txtDescricao").prop('readonly', true);
+	$("#txtAnoLancamento").prop('readonly', true);
+	$("#txtCodigo").prop('readonly', true);
+	$("#txtPeriodoMaxEmprestimo").prop('readonly', true);
+	$("#txtMidia").addClass('select_read_only');
+	$("#txtStatus").addClass('select_read_only');	
+	
+	$("#btnSalvar").prop('disabled',true);
+	$("#btnCancelar").prop('disabled',true);
+	$("#btnExcluir").prop('disabled',true);
+}
+
+function editar_midia(){	
+	desabilitar_todos_campos();
+	$("#txtPeriodoMaxEmprestimo").prop('readonly', false);
+	//$("#txtMidia").removeClass('select_read_only');
+	$("#txtStatus").removeClass('select_read_only');	
+	
+	$("#btnSalvar").prop('disabled',false);
+	$("#btnCancelar").prop('disabled',false);
+	$("#btnExcluir").prop('disabled',false);
+}
+
+function nova_midia(){
+	$("#txtTitulo").prop('readonly', true);
+	$("#txtTituloOriginal").prop('readonly', true);
+	$("#txtDescricao").prop('readonly', true);
+	$("#txtAnoLancamento").prop('readonly', true);
+	$("#txtCodigo").prop('readonly', true);
+	$("#txtPeriodoMaxEmprestimo").prop('readonly', true);
+	$("#txtMidia").prop('readonly', true);
+	$("#txtStatus").prop('readonly', true);
+	
+	$("#txtCodigo").prop('readonly',false);
+	$("#txtPeriodoMaxEmprestimo").prop('readonly',false);
+	$("#txtMidia").prop('readonly',false);
+	$("#txtStatus").prop('readonly',false);	
+	
+	$("#btnSalvar").prop('readonly',false);
+	$("#btnCancelar").prop('readonly',false);
+	$("#btnExcluir").prop('disabled',true);
+}
+
+function inicia_controle_acervo(){	
+	desabilitar_todos_campos();
+	limpar_todos_Campos();
+}
+function selTitulo_onSelected(){	
+	$("#hdnTituloSelecionado").value = $('#hdnTituloSelecionado option:selected').val();	
+	$('#form_pesquisa_titulo').submit();
+} 
+
+function selMidia_onSelected(){
+	$("#hdnMidiaSelecionada").value = $('#selMidia option:selected').val();
+	$('#form_pesquisa_titulo').submit();	
+}
+
+function btnNovo_onclick(){
+	$("#tab_midia_disponivel").hide();
+	$("#selTitulo").val('');
+	habilitar_todos_campos();	
+	limpar_todos_Campos();
+}
+
+function btnNovaMidia_onclick(){
+	$("#hdnMidiaSelecionada").value = 0;
+	$('#form_pesquisa_titulo').submit();
+}
+
+function validar_filme(){
+	msg = '';
+	flag= true;
+	if ($("#txtTitulo").val() == ''){		
+		destacar_erro("#txtTitulo");
+		msg = msg + "Preencha o nome do Filme!";
+		flag= false;
+	}
+	
+	if ($("#txtTituloOriginal").val() == '') {
+		destacar_erro("#txtTituloOriginal");
+		msg = msg + "<br>Preencha o nome original do Filme!";
+		flag= false;
+	}
+	
+	if ($("#txtDescricao").val() == ''){	
+		destacar_erro("#txtDescricao");
+		msg = msg + "<br>Preencha a descrição do Filme!";
+		flag= false;
+	}
+	if ($("#txtAnoLancamento").val()==''){
+		destacar_erro("#txtAnoLancamento");
+		msg = msg + "<br>Preencha o ano de lançamento do Filme!";
+		flag= false;
+	}
+	
+	if ($("#txtTitulo").val() == ''){		
+		destacar_erro("#txtCodigo");
+		msg = msg + "<br>Preencha o código de acervo!";
+		flag= false;
+	}
+	
+	if ($("#txtPeriodoMaxEmprestimo").val() == ''){		
+		destacar_erro("#txtPeriodoMaxEmprestimo");
+		msg = msg + "<br>Preencha o período máximo de empréstimo !";
+		flag= false;
+	}	
+	if ($("#txtMidia").val() == null){		
+		destacar_erro("#txtMidia");
+		msg = msg + "<br>Preencha o tipo de mídia a ser incluso no acervo !";
+		flag= false;
+	}
+	if ($("#txtStatus").val() == null){			
+		destacar_erro("#txtStatus");
+		msg = msg + "<br>Preencha o status inicial da mídia a ser incluso no acervo !";
+		flag= false;
+	}
+	
+	 mostrar_msg_erro( msg )
+	 
+	return flag;
+}
+
+function destacar_erro( campo ){		
+	$(campo).addClass('border');
+	$(campo).addClass('border-danger');	
+}
+
+function mostrar_msg_erro( msg ){
+	$("#validacao").css('visibility','visible');
+	$("#validacao").html( msg );
+}
+
+
+$(document).ready(function(){  
+});

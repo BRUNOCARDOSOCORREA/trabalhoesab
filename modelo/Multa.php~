@@ -1,0 +1,111 @@
+<?php
+	
+	
+	class Multa {
+		
+		private $con;
+		public $path;
+		public $id = 0;
+		public $data;
+		public $valor;
+		public $status;
+		public $data_cancelamento;
+		public $motivo_cancelamento;
+				
+		public function __construct($path){		
+			$this->path = $path;				
+			$this->con = new PDO("sqlite:$path");					
+		}
+		/*	
+		public function listar(){			
+			$comm = $this->con->query("SELECT * FROM tb_cliente AS c ;");						
+			$lista = $comm->fetchAll();			
+			return $lista;
+		}
+		
+		public function pesquisar($pesq=''){
+			$where = "%$pesq%";		
+			$stmt = $this->con->prepare("SELECT * FROM tb_cliente WHERE nome LIKE :pesq ;");	
+			$stmt->bindParam(':pesq',$where);		
+			$stmt->execute();			
+			$lista = $stmt->fetchAll();					
+			return $lista;
+		}
+		
+		public function verificarExistenciaNome($nome){
+			$stmt = $this->con->prepare("SELECT * FROM tb_cliente AS t WHERE nome = :nome;");	
+			$stmt->bindParam(':nome',$nome);
+			
+			$stmt->execute();					
+			$lista = $stmt->fetchAll();			
+			return count($lista) > 0;
+		}
+		*/
+		public function salvar(){
+			
+			if($this->id==0){						
+				$sql = "INSERT INTO 'main'.'tb_multa' ('data','valor') VALUES (:data, :valor);";
+			
+				$stmt = $this->con->prepare($sql);			
+			
+				$stmt->bindParam(':data',$this->data);
+				$stmt->bindParam(':valor',$this->valor);							
+			
+				$stmt->execute();
+				$this->id = $this->con->lastInsertId();
+				$qde = $stmt->rowCount();
+			} 
+			else {				var_dump($this);
+				$sql = "UPDATE 'main'.'tb_multa' SET 'status'=:status, 'data_cancelamento'=:data_cancelamento, motivo_cancelamento=:motivo_cancelamento  WHERE  id=:id_multa";
+			
+				$stmt = $this->con->prepare($sql);
+				
+				$stmt->bindParam(':status',$this->status);
+				$stmt->bindParam(':data_cancelamento',$this->data_cancelamento);
+				$stmt->bindParam(':motivo_cancelamento',$this->motivo_cancelamento);		
+				$stmt->bindParam(':id_multa',$this->id);
+											
+				$stmt->execute();				
+				$qde = $stmt->rowCount();		
+			}
+			
+			return $qde;
+		}	
+		
+		public function buscar($codigo){
+			$comm = $this->con->prepare("SELECT * FROM tb_multa AS m  WHERE id = :cod;");
+			$comm->bindParam(':cod', $codigo);
+			$comm->execute();						
+			$row = $comm->fetch(PDO::FETCH_ASSOC);
+			
+			$multa = null;
+			
+			if ($row != null){ 					
+					$multa = new Multa($this->path);
+					$multa->id = $row['id'];
+					$multa-> data = $row['data'];				
+					$multa->valor = $row['valor'];
+					
+					$multa->status = $row['status'];
+					$multa->data_cancelamento = $row['data_cancelamento'];
+					$multa->motivo_cancelamento = $row['motivo_cancelamento'];
+			}
+			
+			return $multa;
+		}
+		/*
+		public function excluir(){
+			$sql = "DELETE FROM tb_cliente  WHERE  id=:id_cliente;";
+			
+			$stmt = $this->con->prepare($sql);
+						
+			$stmt->bindParam(':id_cliente',$this->id);
+							
+			$stmt->execute();				
+			$qde = $stmt->rowCount();	
+			
+			return $stmt->rowCount();
+		}
+			*/
+	}
+?>

@@ -1,0 +1,212 @@
+function limpar_todos_Campos(){
+	/*
+	$("#txtId").val(0)
+	$("#txtNome").val('');
+	$("#txtLogradouro").val('');
+	$("#txtBairro").val('');
+	$("#txtCPF").val('');
+	$("#txtRG").val('');
+	*/
+}
+
+function habilitar_todos_campos(){
+	$("#txtdataentrega").prop('disabled',false);
+	
+	$("#selItens").delClass('select_read_only');
+	$('#btnSelTitulo').prop('disabled', false);
+	$('#btnDelTitulo').prop('disabled', false);	
+	$('#btnSalvar').prop('disabled', false);
+	$('#btnPagamento').prop('disabled', false);		
+}
+
+function desabilitar_todos_campos(){	
+	$("#selItens").addClass('select_read_only');
+	$('#btnSelTitulo').prop('disabled', true);
+	$('#btnDelTitulo').prop('disabled', true);
+	$('#btnSalvar').prop('disabled', true);
+	$('#btnPagamento').prop('disabled', true);				
+}
+
+function inicia_locacao(){
+	desabilitar_todos_campos();
+	limpar_todos_Campos();
+}
+
+function nova_locacao(){
+	habilitar_todos_campos();
+}
+
+function preenche_dados_filme( obj ){
+	if(obj.item.midia ==1) 
+		$('#txtmidia').val("VHS" );
+	else 
+		$('#txtmidia').val("DVD" );
+	
+	$('#txtnome').val(obj.item.titulo.nome);
+	$('#txtprazo').val(obj.item.periodo_max);
+	$('#txtvalor').val(obj.config.valor_locacao);
+}
+
+function mostrar_mensagem_erro( msg ){	
+	$('#msg_erro').html(msg);
+	$("#msg_erro").css('visibility','visible');
+}
+
+function selLocacao_onSelected(){
+	
+	$('#form_pesquisa_cliente').submit();
+} 
+function atualizar_campos_dinamicos(){
+	qde = 0;
+	total = 0;
+	val_unitario = $('#txtvalorlocacao').val();
+	$("#selItens > option").each(function() {
+		qde++;
+	});
+	$('#txtqde').val( qde );
+	total = val_unitario * qde ;
+	$('#txtvalortotal').val( total );	
+}
+function btnbuscar_onclick(){
+	var_post = "cod="+ $('#txtcod').val();
+	
+	$("#msg_erro").css('visibility','hidden');
+	
+	var req = $.ajax({
+		url:'ajaxBuscarTitulo.php',
+		type:'POST',
+		data: var_post,
+		dataType:'json'
+	}).done( function (resp){	
+	
+		_obj = resp;				
+		if(resp.msg == "" )
+			preenche_dados_filme(resp);
+		else
+			mostrar_mensagem_erro( resp.msg );	
+			
+	}).fail(function (p1, txtStatus){		
+	});
+}
+
+function btnadditem_onclick(){
+	
+	if( _obj == null ||  _obj.msg != "")  {
+		$('#exampleModal').modal('toggle');
+		return ;
+	}
+	
+	val = _obj.item.codigo;
+	txt = _obj.item.titulo.nome + ' - '+ _obj.item.midia;
+	existe = false;
+		
+	$("#selItens > option").each(function() {
+		if (this.value == val)
+			existe = true;
+	});
+	
+	if (!existe)	
+		$('#selItens').append('<option value='+val+'>'+txt+'</option>');
+	
+	$('#exampleModal').modal('toggle');
+}
+
+function btnNovo_onclick(){	
+	habilitar_todos_campos();	
+	limpar_todos_Campos();	
+}
+
+function btndeltem_onclick(){
+	$( "#selItens option:selected").remove();
+	atualizar_campos_dinamicos();
+}
+
+function btnCancelarMulta_onclick(){
+	$("#msg_erro").css('visibility','hidden');
+	
+	var req = $.ajax({
+		url:'index.php?mod=cancelar_multa',
+		type:'POST',
+		data:{
+			motivo: $("#txtMotivo").val(),
+			senha: $('#txtSenha').val()
+		}		
+	}).done( function (resp){
+			
+	}).fail(function (p1, txtStatus){		
+	});
+	
+}
+
+function validar(){
+	/*
+	msg = '';
+	flag= true;
+	
+	//VERIFICANDO CAMPO DATA DE ENTREGA
+	var dt = $("#txtdataentrega").val();
+	if (isNaN((new Date(dt)).getTime())){ // DATA DE ENTREGA COM VALOR INCORRETO
+		destacar_erro("#txtdataentrega");
+		msg = msg + "Preencha um valor correto para data de entrega!";
+		flag= false;		
+	}
+	else { // DATA DE ENTREGA COM VALOR CORRETO. VERIFICAR SE A DATA DE ENTREGA É POSTERIOR AA DATA ATUAL
+		hj = new Date();		
+		entrega = new Date(dt);		
+		if (entrega < hj){
+			destacar_erro("#txtdataentrega");
+			msg = msg + "Data de entrega deve ser posterior à data de locação!";
+			flag= false;
+		}
+	}
+	
+	// VERIFICANDO SE HÁ ITENS SELECIONADOS
+	qde = 0;
+	$("#selItens > option").each(function() {
+		qde++;
+	});
+		
+	if (qde == 0) { //NAO HÁ ITENS SELECIONADOS
+		destacar_erro("#selItens");
+		msg = msg + "<br>Selecione os filmes!";
+		flag= false;
+	}
+	
+	//$('#selItens option').each(function(){
+	//	$(this).prop('selected', true);	
+	//});
+	$('#selItens option').prop('selected', true);	
+	
+	if (!flag)	mostrar_msg_erro( msg )
+	 
+	return flag;
+	*/	
+}
+
+function destacar_erro( campo ){		
+	$(campo).addClass('border');
+	$(campo).addClass('border-danger');	
+}
+
+function mostrar_msg_erro( msg ){
+	$("#validacao").css('visibility','visible');
+	$("#validacao").html( msg );
+}
+
+var _obj = null;
+
+$(document).ready(function(){  
+	 $('.modal').on('hidden.bs.modal', function(e)
+    { 
+    	$('#txtcod').val("" );
+      $('#txtmidia').val("" );	
+		$('#txtnome').val("");
+		$('#txtprazo').val("");
+		$('#txtvalor').val("");
+		$("#msg_erro").css('visibility','hidden');
+		
+		atualizar_campos_dinamicos();
+		
+		_obj = null;
+    }) ;
+});

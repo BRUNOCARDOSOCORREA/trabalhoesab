@@ -1,0 +1,184 @@
+<?php
+	
+	use PHPUnit\Framework\TestCase;
+	
+	require_once (__DIR__ . "/../modelo/Funcionario.php");
+	require_once (__DIR__ . "/../modelo/Usuario.php");
+	
+	class UsuarioTest extends TestCase {
+			private static $id_funcionario;	
+			private static $id_usuario;
+			
+			public function testAdicionar (){				
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora.sqlite';
+				
+				$item = new Funcionario($bd);
+								
+				$item-> nome = 'Leandro Peçanha Scardua';				
+				$item->logradouro = 'Rua Pedro Palácios, 40';
+				$item-> bairro = 'Centro' ;				
+				$item->cpf = '097.189.777-83';
+				$item-> rg = '1815806';			
+				
+				$qde = $item->salvar();
+				
+				$this->assertEquals(1, $qde);	
+				$this->assertGreaterThan(0, $item->id);
+				self::$id_funcionario = $item->id;		
+				
+				$u = new Usuario($bd);
+				$u->login = "leandro.scardua";
+				$u->senha = "L34@ndr0";
+				$u->funcionario = $item;
+				$u->eh_administrador = 1;
+				$u->status = 1;
+				
+				$qde = $u->salvar();
+				
+				$this->assertEquals(1, $qde);	
+				$this->assertGreaterThan(0, $u->id);
+				self::$id_usuario = $u->id;
+			}			
+			
+			/**
+			@depends testAdicionar
+			*/
+			public function testPesquisar (){							
+				$this->AssertNotEquals(0, self::$id_usuario)	;
+							
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora.sqlite';
+				$item = new Usuario($bd);
+				
+				$t = $item->pesquisar('Scardua');				
+				$this->assertEquals(1, count($t));
+				
+				$t = $item->pesquisar('sooretama');				
+				$this->assertEquals(0, count($t));								
+			}
+			
+			/**
+			@depends testAdicionar
+			*/
+			public function testVerificarExistenciaLogin (){	
+					
+				$this->AssertNotEquals(0, self::$id_usuario)	;
+							
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora.sqlite';
+				$item = new Usuario($bd);
+				
+				$t = $item->verificarExistenciaLogin('leandro.scardua');				
+				$this->assertTrue($t);
+				
+				$t = $item->verificarExistenciaLogin('leandro.pecanha');				
+				$this->assertFalse($t);										
+			}
+			
+			/**
+			@depends testAdicionar
+			*/
+			public function testValidar (){	
+					
+				$this->AssertNotEquals(0, self::$id_usuario)	;
+							
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora.sqlite';
+				$item = new Usuario($bd);
+				
+				$t = $item->validar('leandro.scardua', "L34@ndr0");				
+				$this->assertTrue($t);	
+				
+				$t = $item->validar('leandro.scardua', "LLL");				
+				$this->assertFalse($t);	
+				
+				$t = $item->validar('leandro', "L34@ndr0");				
+				$this->assertFalse($t);
+			}
+			
+			/**
+			@depends testAdicionar
+			*/
+			public function testBuscar (){								
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora.sqlite';
+				$item = new Usuario($bd);
+				
+				$cli = $item->buscar(self::$id_usuario);
+				
+				$this->assertNotNull($cli);				
+				
+				$this->assertEquals(self::$id_usuario, $cli->id);
+				$this->assertEquals("leandro.scardua", $cli->login);
+				$this->assertEquals("L34@ndr0", $cli->senha);
+				$this->assertEquals(1, $cli->status);
+				$this->assertEquals(1, $cli->eh_administrador);
+				$this->assertEquals(self::$id_funcionario, $cli->funcionario->id);								
+				
+				$cli = $item->buscar('---');//buscar por um item inexistente
+				$this->assertNull($cli);								
+			}			
+					
+			/**
+			@depends testAdicionar
+			*/
+			public function testBuscarPorLogin (){								
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora.sqlite';
+				$item = new Usuario($bd);
+				
+				$cli = $item->buscarPorLogin( "leandro.scardua" );
+				
+				$this->assertNotNull($cli);				
+				
+				$this->assertEquals(self::$id_usuario, $cli->id);
+				$this->assertEquals("leandro.scardua", $cli->login);
+				$this->assertEquals("L34@ndr0", $cli->senha);
+				$this->assertEquals(1, $cli->status);
+				$this->assertEquals(1, $cli->eh_administrador);
+				$this->assertEquals(self::$id_funcionario, $cli->funcionario->id);								
+				
+				$cli = $item->buscarPorLogin('---');//buscar por um item inexistente
+				$this->assertNull($cli);								
+			}		
+				
+			/**
+			@depends testAdicionar
+			*/
+			public function testAtualizar (){				
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora.sqlite';
+				$cli = new Usuario($bd);
+				
+				$cli = $cli->buscar(self::$id_usuario);
+											
+				$cli-> senha = 'S3nh@';				
+				$cli->status = 0;
+				$cli->eh_administrador = 0;
+				
+				$qde = $cli->salvar();
+				$this->assertEquals(1, $qde);
+				
+				$u = $cli->buscar(self::$id_usuario);
+				
+				$this->assertNotNull($u);				
+				
+				$this->assertEquals(self::$id_usuario, $u->id);				
+				$this->assertEquals("leandro.scardua", $u->login);
+				$this->assertEquals('S3nh@' , $u->senha);
+				$this->assertEquals(0 , $u->status);
+				$this->assertEquals(0 , $u->eh_administrador);
+				$this->assertEquals(self::$id_funcionario, $u->funcionario->id );
+			}
+			
+			/**			
+			@depends testPesquisar
+			@depends testBuscar			
+			@depends testAtualizar
+			*/
+			public function testExcluir (){							
+				$bd = dirname(__FILE__) . '/../banco_dados/locadora.sqlite';
+				$cli = new Usuario($bd);
+				
+				$cli = $cli->buscar(self::$id_usuario);
+				$this->assertNotNull($cli);
+				$cli->excluir();
+				$cli = $cli->buscar(self::$id_usuario);
+				$this->assertNull($cli);
+			}			
+	}
+?>
