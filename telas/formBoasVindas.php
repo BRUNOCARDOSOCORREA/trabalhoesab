@@ -38,7 +38,7 @@
 		<?php
 				include ("menu.php");
 		?>
-<h1>Boas Vindas!</h1>
+<h1>Bem vindo !!</h1>
 					
 	</div>
 		       
