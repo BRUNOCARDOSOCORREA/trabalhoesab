@@ -171,5 +171,5 @@ INSERT INTO "main"."tb_situacao_item_acervo" ("id", "nome", "descricao") VALUES 
 INSERT INTO "main"."tb_configuracao" ("habilitar_promocao_locacao_individual", "habilitar_promocao_locacao_periodo", "qde_locacao_individual", "qde_locacao_periodo",'valor_locacao','valor_multa') VALUES ('0', '0', '5', '20','3.5','1.0');
 
 -- inserindo usuário administrador
-INSERT INTO "main"."tb_usuario" ("id", "login", "senha", "status", "id_funcionario", "eh_administrador") VALUES ('1', 'admin', 'admin', '1', '0', '1');
+INSERT INTO "main"."tb_usuario" ("id", "login", "senha", "status", "id_funcionario", "eh_administrador") VALUES ('1', 'admin', 'admi', '1', '0', '1');
 

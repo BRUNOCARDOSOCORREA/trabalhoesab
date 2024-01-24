@@ -19,7 +19,7 @@
 				 <form action="index.php?mod=login" method="post"> 
 					<div class="row">
 						<div class="col-lg-12">
-							<p class="h4 text-center" >Sistema de Controle de Locadora</p>
+							<p class="h4 text-center" >Controle de Locadora</p>
 						</div>
 					</div>				
 					<div class="row">
